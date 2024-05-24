@@ -3,34 +3,28 @@ package main
 // @leet start
 func permute(nums []int) [][]int {
 
-    visited := make([]bool, len(nums))
-    curr := []int{}
-    ans := [][]int{}
-
-    var backtrack func()
-
-    backtrack = func(){
-
+    ans := make([][]int, 0)
+    curr := make([]int, 0)
+    var backtrack func (id int)
+    chosen := make(map[int]bool)
+    backtrack = func(i int){
         if len(curr) == len(nums){
             ans = append(ans, append([]int{}, curr...))
-            return 
         }
 
-        for i:= 0; i< len(nums); i++{
-
-            if !visited[i]{
-                visited[i] = true
+        for i := 0; i < len(nums); i++{
+            if chosen[i] == false {
+                chosen[i] = true
                 curr = append(curr, nums[i])
-                backtrack()
-                visited[i] = false
-                curr = curr[: len(curr)-1]
+                backtrack(i+1)
+                curr = curr[:len(curr)-1]
+                chosen[i] = false
             }
-
         }
-
     }
-    backtrack()
 
+    backtrack(0)
     return ans
+
 }
 // @leet end
