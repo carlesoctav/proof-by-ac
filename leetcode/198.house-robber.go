@@ -2,18 +2,26 @@ package main
 
 // @leet start
 func rob(nums []int) int {
-    n := len(nums)+1
-    dp := make([]int, n)
-
+    dp := make([]int, len(nums))
     dp[0] = nums[0]
-    dp[1] = nums[1]
-
-    for i:= 2 ; i < n-1 ; i++{
-        dp[i] = max(dp[i-2]+nums[i], dp[i-1])
+    if len(nums) == 1 {
+        return nums[0]
     }
+    dp[1] = nums[1]
+    ans := max(dp[0], dp[1]) 
 
-    dp[n] = max(dp[n-1], dp[n-2])
 
-    return dp[n]
+    for i, _ := range dp {
+        if i == 0 || i == 1 {
+            continue
+        }
+
+        for k:=2 ; k <= i; k++{
+            dp[i] = max(nums[i], nums[i]+ dp[i-k], dp[i])
+        }
+        ans = max(ans, dp[i])
+    } 
+
+    return ans 
 }
 // @leet end
